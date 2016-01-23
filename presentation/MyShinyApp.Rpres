@@ -1,0 +1,68 @@
+MyShinyApp
+========================================================
+author: Ray Cai
+date: `r date()`
+
+What
+========================================================
+
+This application uses dataset `mtcars` from library `dataset`, to build a single variable linear regression model, which fit $$y=\beta_0+\beta_1x$$
+
+User could choose different `outcome` and `predictor`, to evaluate linear regression model.
+
+The application will display the `intercept` and `slope`. And plot values and regression line on one plot.
+
+How
+========================================================
+
+1. User choose the `outcome`
+2. User choose the `predictor`
+3. User click the button "Build model"
+
+Available `outcome` and `predictor`:
+```{r,echo=FALSE}
+library(datasets)
+colnames(mtcars)
+```
+
+Example
+========================================================
+Suppose user choose `mpg` as `outcome`, `wt` as `predictor`. 
+```{r,echo=FALSE}
+fit<-lm(mpg~wt,data=mtcars)
+```
+The application will display:
+- $$\beta_0: `r coef(fit)[[1]]`$$
+- $$\beta_1: `r coef(fit)[[2]]`$$
+
+
+
+Example
+========================================================
+And display values and linear regression line on one plot:
+```{r,echo=FALSE,fig.width=10,fig.height=5}
+featureLabels<-list("mpg"="Miles/(US) gallon",
+                    "cyl"="Number of cylinders",
+                    "disp"="Displacement (cu.in.)",
+                    "hp"="Gross horsepower",
+                    "drat"="Rear axle ratio",
+                    "wt"="Weight (1000 lbs)",
+                    "qsec"="1/4 mile time",
+                    "vs"="V/S",
+                    "am"="Transmission (0 = automatic, 1 = manual)",
+                    "gear"="Number of forward gears",
+                    "carb"="Number of carburetors")
+plot(x=mtcars$wt,
+                 y=mtcars$mpg,
+                 type="p",
+                  col="blue",
+                lwd=5,
+                 main=paste("Linear Regression model between",
+                            featureLabels[["wt"]],
+                            "and",
+                            featureLabels[["mpg"]],
+                            sep=" "),
+                 xlab=featureLabels[["wt"]],
+                 ylab=featureLabels[["mpg"]])
+    abline(fit)
+```
